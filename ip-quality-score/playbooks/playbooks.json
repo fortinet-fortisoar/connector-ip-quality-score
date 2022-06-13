@@ -1,0 +1,280 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "uuid": "fafabd46-997d-41be-92a2-26855925a435",
+      "@type": "WorkflowCollection",
+      "name": "Sample - IP Quality Score - 1.0.0",
+      "description": "The IPQualityScore (IPQS) Threat Intelligence application provides threat intelligence for IP addresses, email addresses, URLs, and domains. This connector facilitates automated interactions with a IP Quality Score server using FortiSOAR\u2122 playbooks.",
+      "visible": true,
+      "image": null,
+      "recordTags": [
+        ""
+      ],
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "uuid": "c50272cf-5ed7-421c-b8d5-d94e0dbd1d77",
+          "collection": "/api/3/workflow_collections/fafabd46-997d-41be-92a2-26855925a435",
+          "triggerLimit": null,
+          "description": "Retrieves a report from IPQualityScore for the ip address submitted to determine if it is suspicious based on the ip address you have specified.",
+          "name": "Get IP Reputation",
+          "tag": "#IP Quality Score",
+          "recordTags": [
+            ""
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/a72c996a-2b65-4d33-aeb5-07b45fbff6cb",
+          "steps": [
+            {
+              "uuid": "a72c996a-2b65-4d33-aeb5-07b45fbff6cb",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "1866dc27-d7d6-43e5-9d29-828c249a6b45",
+                "title": "IP Quality Score: Get IP Reputation",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "09c1d49c-0278-4fa4-90a5-96195fb42011",
+              "@type": "WorkflowStep",
+              "name": "Get IP Reputation",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "IP Quality Score",
+                "config": "''",
+                "params": {
+                  "strictness": [
+                    "0"
+                  ],
+                  "fast": false,
+                  "mobile": false,
+                  "allow_public_access_points": false,
+                  "lighter_penalties": false,
+                  "transaction_strictness": [
+                    "0"
+                  ]
+                },
+                "version": "1.0.0",
+                "connector": "ip-quality-score",
+                "operation": "get_ip_reputation",
+                "operationTitle": "Get IP Reputation",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "55091963-1a91-4582-9439-76a7466119bd",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get IP Reputation",
+              "sourceStep": "/api/3/workflow_steps/a72c996a-2b65-4d33-aeb5-07b45fbff6cb",
+              "targetStep": "/api/3/workflow_steps/09c1d49c-0278-4fa4-90a5-96195fb42011"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "dd0e2ae4-2579-40be-98fc-8ed1d185ff08",
+          "collection": "/api/3/workflow_collections/fafabd46-997d-41be-92a2-26855925a435",
+          "triggerLimit": null,
+          "description": "Retrieves a report from IPQualityScore for the Email address submitted to determine if it is suspicious based on the Email address you have specified.",
+          "name": "Get Email Reputation",
+          "tag": "#IP Quality Score",
+          "recordTags": [
+            ""
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/f0d071c8-1e5b-4915-b561-2d11100092fb",
+          "steps": [
+            {
+              "uuid": "f0d071c8-1e5b-4915-b561-2d11100092fb",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "ef31f154-b0e4-4c6f-999d-c7832ef342f1",
+                "title": "IP Quality Score: Get Email Reputation",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "602e8efc-ea32-4752-a464-dea91464d744",
+              "@type": "WorkflowStep",
+              "name": "Get Email Reputation",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "IP Quality Score",
+                "config": "''",
+                "params": {
+                  "fast": false,
+                  "suggest_domain": false,
+                  "strictness": [
+                    "0"
+                  ],
+                  "abuse_strictness": [
+                    "0"
+                  ]
+                },
+                "version": "1.0.0",
+                "connector": "ip-quality-score",
+                "operation": "get_email_reputation",
+                "operationTitle": "Get Email Reputation",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "e219e45c-c5af-4d94-bddf-e6a9a9baa1fd",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get Email Reputation",
+              "sourceStep": "/api/3/workflow_steps/f0d071c8-1e5b-4915-b561-2d11100092fb",
+              "targetStep": "/api/3/workflow_steps/602e8efc-ea32-4752-a464-dea91464d744"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "13a7deaf-ad57-4f30-8ff1-2a1de558386d",
+          "collection": "/api/3/workflow_collections/fafabd46-997d-41be-92a2-26855925a435",
+          "triggerLimit": null,
+          "description": "Retrieves a report from IPQualityScore for the URL submitted to determine if it is suspicious based on the URL you have specified.",
+          "name": "Get URL Reputation",
+          "tag": "#IP Quality Score",
+          "recordTags": [
+            ""
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/4495c362-bf69-4504-ab27-4607e2110999",
+          "steps": [
+            {
+              "uuid": "4495c362-bf69-4504-ab27-4607e2110999",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "route": "ed9acf41-d22b-4a2b-bab6-802da7b92f78",
+                "title": "IP Quality Score: Get URL Reputation",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "singleRecordExecution": false,
+                "noRecordExecution": true,
+                "executeButtonText": "Execute"
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
+            },
+            {
+              "uuid": "ba4e0ba2-7307-40c0-be66-d6b42492ef0b",
+              "@type": "WorkflowStep",
+              "name": "Get URL Reputation",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "IP Quality Score",
+                "config": "''",
+                "params": {
+                  "strictness": [
+                    "0"
+                  ],
+                  "fast": false
+                },
+                "version": "1.0.0",
+                "connector": "ip-quality-score",
+                "operation": "get_url_reputation",
+                "operationTitle": "Get URL Reputation",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "546e8cee-4b2b-433b-b436-698a469b5ed1",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get URL Reputation",
+              "sourceStep": "/api/3/workflow_steps/4495c362-bf69-4504-ab27-4607e2110999",
+              "targetStep": "/api/3/workflow_steps/ba4e0ba2-7307-40c0-be66-d6b42492ef0b"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -96,14 +96,13 @@
           "required": false,
           "editable": true,
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            0,
+            1,
+            2,
+            3
           ],
-          "value": [
-            "0"
-          ],
+          "value": 0,
+          "type": "select",
           "tooltip": "Stricter checks may provide a higher false-positive rate. We recommend defaulting to level \"0\", the lowest strictness setting, and increasing to \"1\" or \"2\" depending on your levels of fraud.",
           "description": "Stricter checks may provide a higher false-positive rate. We recommend defaulting to level \"0\", the lowest strictness setting, and increasing to \"1\" or \"2\" depending on your levels of fraud."
         },
@@ -178,13 +177,12 @@
           "required": false,
           "editable": true,
           "options": [
-            "0",
-            "1",
-            "2"
+            0,
+            1,
+            2
           ],
-          "value": [
-            "0"
-          ],
+          "value": 0,
+          "type": "select",
           "tooltip": "Adjusts the weights for penalties applied due to irregularities and fraudulent patterns detected on order and transaction details that can be optionally provided on each API request. This feature is only beneficial if you are passing order and transaction details.",
           "description": "Adjusts the weights for penalties applied due to irregularities and fraudulent patterns detected on order and transaction details that can be optionally provided on each API request. This feature is only beneficial if you are passing order and transaction details."
         }
@@ -271,6 +269,12 @@
           "required": false,
           "editable": true,
           "type": "integer",
+          "validation": {
+            "minlength": 1,
+            "maxlength": 60
+          },
+          "minimum": 1,
+          "maximum": 2,
           "value": 7,
           "tooltip": "Provides better accuracy if response time is not an issue, timeout can be a value between 1 and 60. Default timeout is 7 seconds.",
           "description": "Provides better accuracy if response time is not an issue, timeout can be a value between 1 and 60. Default timeout is 7 seconds."
@@ -293,14 +297,12 @@
           "required": false,
           "editable": true,
           "options": [
-            "0",
-            "1",
-            "2"
+            0,
+            1,
+            2
           ],
-          "value": [
-            "0"
-          ],
-          "type": "text",
+          "value": 0,
+          "type": "select",
           "tooltip": "Sets how strictly spam traps and honeypots are detected by our system, depending on how comfortable you are with identifying emails suspected of being a spam trap. 0 is the lowest level which will only return spam traps with high confidence. Strictness levels above 0 will return increasingly more strict results, with level 2 providing the greatest detection rates.",
           "description": "Sets how strictly spam traps and honeypots are detected by our system, depending on how comfortable you are with identifying emails suspected of being a spam trap. 0 is the lowest level which will only return spam traps with high confidence. Strictness levels above 0 will return increasingly more strict results, with level 2 providing the greatest detection rates."
         },
@@ -311,14 +313,12 @@
           "required": false,
           "editable": true,
           "options": [
-            "0",
-            "1",
-            "2"
+            0,
+            1,
+            2
           ],
-          "value": [
-            "0"
-          ],
-          "type": "text",
+          "value": 0,
+          "type": "select",
           "tooltip": "Set the strictness level for machine learning pattern recognition of abusive email addresses with the \"recent_abuse\" data point. Default level of 0 provides good coverage, however if you are filtering account applications and facing advanced fraudsters then we recommend increasing this value to level 1 or 2.",
           "description": "Set the strictness level for machine learning pattern recognition of abusive email addresses with the \"recent_abuse\" data point. Default level of 0 provides good coverage, however if you are filtering account applications and facing advanced fraudsters then we recommend increasing this value to level 1 or 2."
         }
@@ -376,14 +376,12 @@
           "required": false,
           "editable": true,
           "options": [
-            "0",
-            "1",
-            "2"
+            0,
+            1,
+            2
           ],
-          "value": [
-            "0"
-          ],
-          "type": "text",
+          "value": 0,
+          "type": "select",
           "tooltip": "Stricter checks may provide a higher false-positive rate. We recommend defaulting to level \"0\", the lowest strictness setting, and increasing to \"1\" or \"2\" depending on your levels of abuse.",
           "description": "Stricter checks may provide a higher false-positive rate. We recommend defaulting to level \"0\", the lowest strictness setting, and increasing to \"1\" or \"2\" depending on your levels of abuse."
         },

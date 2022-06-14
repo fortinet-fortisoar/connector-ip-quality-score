@@ -23,7 +23,7 @@
         "description": "The URL of the IPQualityScore server to which you will connect and perform the automated operations."
       },
       {
-        "title": "Private Kay",
+        "title": "Private Key",
         "required": true,
         "editable": true,
         "visible": true,

@@ -9,7 +9,7 @@
   "category": "Threat Intelligence",
   "icon_small_name": "small.png",
   "icon_large_name": "large.png",
-  "help_online": "",
+  "help_online": "https://docs.fortinet.com/document/fortisoar/1.0.0/ip-quality-score/291/ip-quality-score-v1-0-0",
   "configuration": {
     "fields": [
       {
@@ -47,7 +47,7 @@
     {
       "operation": "get_ip_reputation",
       "title": "Get IP Reputation",
-      "description": "Retrieves a report from IPQualityScore for the ip address submitted to determine if it is suspicious based on the ip address you have specified.",
+      "description": "Retrieves the reputation of the submitted IP address from IPQualityScore based on the IP address and other input parameters you have specified.",
       "category": "investigation",
       "annotation": "get_ip_reputation",
       "output_schema": {
@@ -86,8 +86,8 @@
           "required": true,
           "editable": true,
           "type": "text",
-          "tooltip": "Specify the IP address, whose IP reputation you want to retrieve from IPQualityScore",
-          "description": "Specify the IP address, whose IP reputation you want to retrieve from IPQualityScore."
+          "tooltip": "Specify the IP address whose reputation you want to retrieve from IPQualityScore.",
+          "description": "Specify the IP address whose reputation you want to retrieve from IPQualityScore."
         },
         {
           "title": "Strictness",
@@ -103,8 +103,8 @@
           ],
           "value": 0,
           "type": "select",
-          "tooltip": "Stricter checks may provide a higher false-positive rate. We recommend defaulting to level \"0\", the lowest strictness setting, and increasing to \"1\" or \"2\" depending on your levels of fraud.",
-          "description": "Stricter checks may provide a higher false-positive rate. We recommend defaulting to level \"0\", the lowest strictness setting, and increasing to \"1\" or \"2\" depending on your levels of fraud."
+          "tooltip": "Select the level of strictness you want to apply while retrieving the IP reputation. Stricter checks might lead to a higher false-positive rate. Therefore, it is recommended to set the strictness to level '0', the lowest strictness setting, and then increase it to '1' or '2' depending on your levels of fraud.",
+          "description": "(Optional) Select the level of strictness you want to apply while retrieving the IP reputation. Stricter checks might lead to a higher false-positive rate. Therefore, it is recommended to set the strictness to level '0', the lowest strictness setting, and then increase it to '1' or '2' depending on your levels of fraud."
         },
         {
           "title": "User Agent",
@@ -113,8 +113,8 @@
           "required": false,
           "editable": true,
           "type": "text",
-          "tooltip": "This allows IPQualityScore to run additional checks to see if the user is a bot or running an invalid browser. This allows IPQualityScore to evaluate the risk of the user as judged in the \"fraud_score\".",
-          "description": "This allows IPQualityScore to run additional checks to see if the user is a bot or running an invalid browser. This allows IPQualityScore to evaluate the risk of the user as judged in the \"fraud_score\"."
+          "tooltip": "Specify a value in this parameter so that IPQualityScore can run additional checks to see if the user is a bot or running an invalid browser. This allows IPQualityScore to evaluate the risk of the user as judged in the \"fraud_score\".",
+          "description": "(Optional) Specify a value in this parameter so that IPQualityScore can run additional checks to see if the user is a bot or running an invalid browser. This allows IPQualityScore to evaluate the risk of the user as judged in the \"fraud_score\"."
         },
         {
           "title": "User Language",
@@ -123,8 +123,8 @@
           "required": false,
           "editable": true,
           "type": "text",
-          "tooltip": "This allows IPQualityScore to evaluate the risk of the user as judged in the \"fraud_score\".",
-          "description": "This allows IPQualityScore to evaluate the risk of the user as judged in the \"fraud_score\"."
+          "tooltip": "Specify a value in this parameter so that IPQualityScore can evaluate the risk of the user as judged in the \"fraud_score\".",
+          "description": "(Optional) Specify a value in this parameter so that IPQualityScore can evaluate the risk of the user as judged in the \"fraud_score\"."
         },
         {
           "title": "Fast",
@@ -134,8 +134,8 @@
           "editable": true,
           "type": "checkbox",
           "value": false,
-          "tooltip": "When this parameter is enabled our API will not perform certain forensic checks that take longer to process. Enabling this feature greatly increases the API speed without much impact on accuracy. This option is intended for services that require decision making in a time sensitive manner and can be used for any strictness level.",
-          "description": "When this parameter is enabled our API will not perform certain forensic checks that take longer to process. Enabling this feature greatly increases the API speed without much impact on accuracy. This option is intended for services that require decision making in a time sensitive manner and can be used for any strictness level."
+          "tooltip": "Select the 'Fast' parameter to greatly increases the API speed without much impact on accuracy. This option is intended for services that require quick decisions and can be used for any strictness level. In this case, our API does not perform certain forensic checks that take longer to process.",
+          "description": "Select the 'Fast' parameter to greatly increases the API speed without much impact on accuracy. This option is intended for services that require quick decisions and can be used for any strictness level. In this case, our API does not perform certain forensic checks that take longer to process."
         },
         {
           "title": "Mobile",
@@ -145,8 +145,8 @@
           "editable": true,
           "type": "checkbox",
           "value": false,
-          "tooltip": "Recommended for mobile lookups that do not have a user agent attached to the request.",
-          "description": "Recommended for mobile lookups that do not have a user agent attached to the request."
+          "tooltip": "Select the 'Mobile' parameter (recommended) for mobile lookups that do not have a user agent attached to the request.",
+          "description": "Select the 'Mobile' parameter (recommended) for mobile lookups that do not have a user agent attached to the request."
         },
         {
           "title": "Allow Public Access Points",
@@ -156,8 +156,8 @@
           "editable": true,
           "type": "checkbox",
           "value": false,
-          "tooltip": "Bypasses certain checks for IP addresses from education and research institutions, schools, and some corporate connections to better accommodate audiences that frequently use public connections.",
-          "description": "Bypasses certain checks for IP addresses from education and research institutions, schools, and some corporate connections to better accommodate audiences that frequently use public connections."
+          "tooltip": "Select the 'Allow Public Access Points' parameter to bypass certain checks for IP addresses from education and research institutions, schools, and some corporate connections to better accommodate audiences that frequently use public connections.",
+          "description": "Select the 'Allow Public Access Points' parameter to bypass certain checks for IP addresses from education and research institutions, schools, and some corporate connections to better accommodate audiences that frequently use public connections."
         },
         {
           "title": "Lighter Penalties",
@@ -167,8 +167,8 @@
           "editable": true,
           "type": "checkbox",
           "value": false,
-          "tooltip": "Is your scoring too strict? Enable this setting to lower detection rates and Fraud Scores for mixed quality IP addresses. If you experience any false-positives with your traffic then enabling this feature will provide better results.",
-          "description": "Is your scoring too strict? Enable this setting to lower detection rates and Fraud Scores for mixed quality IP addresses. If you experience any false-positives with your traffic then enabling this feature will provide better results."
+          "tooltip": "Select the 'Lighter Penalties' parameter to lower detection rates and Fraud Scores for mixed-quality IP addresses. If you experience any false positives with your traffic, then enabling this option provides better results.",
+          "description": "Select the 'Lighter Penalties' parameter to lower detection rates and Fraud Scores for mixed-quality IP addresses. If you experience any false positives with your traffic, then enabling this option provides better results."
         },
         {
           "title": "Transaction Strictness",
@@ -183,8 +183,8 @@
           ],
           "value": 0,
           "type": "select",
-          "tooltip": "Adjusts the weights for penalties applied due to irregularities and fraudulent patterns detected on order and transaction details that can be optionally provided on each API request. This feature is only beneficial if you are passing order and transaction details.",
-          "description": "Adjusts the weights for penalties applied due to irregularities and fraudulent patterns detected on order and transaction details that can be optionally provided on each API request. This feature is only beneficial if you are passing order and transaction details."
+          "tooltip": "Select the level of transaction strictness you want to apply while retrieving the IP reputation. This parameter adjusts the weights for penalties applied due to irregularities and fraudulent patterns detected on order and transaction details that can be optionally provided on each API request. This option is beneficial only if you are passing order and transaction details.",
+          "description": "(Optional) Select the level of transaction strictness you want to apply while retrieving the IP reputation. This parameter adjusts the weights for penalties applied due to irregularities and fraudulent patterns detected on order and transaction details that can be optionally provided on each API request. This option is beneficial only if you are passing order and transaction details."
         }
       ],
       "enabled": true
@@ -192,7 +192,7 @@
     {
       "operation": "get_email_reputation",
       "title": "Get Email Reputation",
-      "description": "Retrieves a report from IPQualityScore for the Email address submitted to determine if it is suspicious based on the Email address you have specified.",
+      "description": "Retrieves the reputation of the submitted email address from IPQualityScore based on the email address and other input parameters you have specified.",
       "category": "investigation",
       "annotation": "get_email_reputation",
       "output_schema": {
@@ -248,8 +248,8 @@
           "required": true,
           "editable": true,
           "type": "text",
-          "tooltip": "Specify the Email address, whose email reputation you want to retrieve from IPQualityScore",
-          "description": "Specify the Email address, whose email reputation you want to retrieve from IPQualityScore."
+          "tooltip": "Specify the email address whose reputation you want to retrieve from IPQualityScore.",
+          "description": "Specify the email address whose reputation you want to retrieve from IPQualityScore."
         },
         {
           "title": "Fast",
@@ -259,8 +259,8 @@
           "editable": true,
           "type": "checkbox",
           "value": false,
-          "tooltip": "When this parameter is enabled our API will not perform an SMTP check with the mail service provider, which greatly increases the API speed. ",
-          "description": "When this parameter is enabled our API will not perform an SMTP check with the mail service provider, which greatly increases the API speed. "
+          "tooltip": "Select the 'Fast' parameter to greatly increases the API speed. In this case, our API does not perform an SMTP check with the mail service provider, which greatly increases the API speed.",
+          "description": "Select the 'Fast' parameter to greatly increases the API speed. In this case, our API does not perform an SMTP check with the mail service provider, which greatly increases the API speed."
         },
         {
           "title": "Timeout",
@@ -276,8 +276,8 @@
           "minimum": 1,
           "maximum": 2,
           "value": 7,
-          "tooltip": "Provides better accuracy if response time is not an issue, timeout can be a value between 1 and 60. Default timeout is 7 seconds.",
-          "description": "Provides better accuracy if response time is not an issue, timeout can be a value between 1 and 60. Default timeout is 7 seconds."
+          "tooltip": "Specify the timeout value in seconds. The IP Quality Score connector provides better accuracy if response time is not an issue. You can specify the timeout value between 1 and 60. The default timeout is set at 7 seconds.",
+          "description": "Specify the timeout value in seconds. The IP Quality Score connector provides better accuracy if response time is not an issue. You can specify the timeout value between 1 and 60. The default timeout is set at 7 seconds."
         },
         {
           "title": "Suggest Domain",
@@ -287,8 +287,8 @@
           "editable": true,
           "type": "checkbox",
           "value": false,
-          "tooltip": "Force analyze if the email address's domain has a typo and should be corrected to a popular mail service. By default, this test is currently only performed when the email is invalid or if the \"recent abuse\" status is true.",
-          "description": "Force analyze if the email address's domain has a typo and should be corrected to a popular mail service. By default, this test is currently only performed when the email is invalid or if the \"recent abuse\" status is true."
+          "tooltip": "Select this option to force analysis if the domain of the specified email address has a typo and should be corrected to a popular mail service. By default, this test is currently only performed when the email is invalid or if the \"recent abuse\" status is true.",
+          "description": "Select this option to force analysis if the domain of the specified email address has a typo and should be corrected to a popular mail service. By default, this test is currently only performed when the email is invalid or if the \"recent abuse\" status is true."
         },
         {
           "title": "Strictness",
@@ -303,8 +303,8 @@
           ],
           "value": 0,
           "type": "select",
-          "tooltip": "Sets how strictly spam traps and honeypots are detected by our system, depending on how comfortable you are with identifying emails suspected of being a spam trap. 0 is the lowest level which will only return spam traps with high confidence. Strictness levels above 0 will return increasingly more strict results, with level 2 providing the greatest detection rates.",
-          "description": "Sets how strictly spam traps and honeypots are detected by our system, depending on how comfortable you are with identifying emails suspected of being a spam trap. 0 is the lowest level which will only return spam traps with high confidence. Strictness levels above 0 will return increasingly more strict results, with level 2 providing the greatest detection rates."
+          "tooltip": "Select the level of strictness you want to apply while retrieving the email reputation. This parameter sets how strictly spam traps and honeypots are detected by our system, depending on how comfortable you are with identifying emails suspected of being a spam trap. '0' is the lowest level, which only returns spam traps with high confidence. Strictness levels above '0' return increasingly more strict results, with level '2' providing the greatest detection rates.",
+          "description": "(Optional) Select the level of strictness you want to apply while retrieving the email reputation. This parameter sets how strictly spam traps and honeypots are detected by our system, depending on how comfortable you are with identifying emails suspected of being a spam trap. '0' is the lowest level, which only returns spam traps with high confidence. Strictness levels above '0' return increasingly more strict results, with level '2' providing the greatest detection rates."
         },
         {
           "title": "Abuse Strictness",
@@ -319,8 +319,8 @@
           ],
           "value": 0,
           "type": "select",
-          "tooltip": "Set the strictness level for machine learning pattern recognition of abusive email addresses with the \"recent_abuse\" data point. Default level of 0 provides good coverage, however if you are filtering account applications and facing advanced fraudsters then we recommend increasing this value to level 1 or 2.",
-          "description": "Set the strictness level for machine learning pattern recognition of abusive email addresses with the \"recent_abuse\" data point. Default level of 0 provides good coverage, however if you are filtering account applications and facing advanced fraudsters then we recommend increasing this value to level 1 or 2."
+          "tooltip": "Select the level of strictness for machine learning pattern recognition of abusive email addresses with the \"recent_abuse\" data point. The default level of '0' provides good coverage; however, if you are filtering account applications and facing advanced fraudsters, then we recommend increasing this value to level '1' or '2'.",
+          "description": "(Optional) Select the level of strictness for machine learning pattern recognition of abusive email addresses with the \"recent_abuse\" data point. The default level of '0' provides good coverage; however, if you are filtering account applications and facing advanced fraudsters, then we recommend increasing this value to level '1' or '2'."
         }
       ],
       "enabled": true
@@ -328,7 +328,7 @@
     {
       "operation": "get_url_reputation",
       "title": "Get URL Reputation",
-      "description": "Retrieves a report from IPQualityScore for the URL submitted to determine if it is suspicious based on the URL you have specified.",
+      "description": "Retrieves the reputation of the submitted URL from IPQualityScore based on the URL and other input parameters you have specified.",
       "category": "investigation",
       "annotation": "get_url_reputation",
       "output_schema": {
@@ -366,8 +366,8 @@
           "required": true,
           "editable": true,
           "type": "text",
-          "tooltip": "Specify the url, whose url reputation you want to retrieve from IPQualityScore.",
-          "description": "Specify the url, whose url reputation you want to retrieve from IPQualityScore."
+          "tooltip": "Specify the URL whose reputation you want to retrieve from IPQualityScore.",
+          "description": "Specify the URL whose reputation you want to retrieve from IPQualityScore."
         },
         {
           "title": "Strictness",
@@ -382,8 +382,8 @@
           ],
           "value": 0,
           "type": "select",
-          "tooltip": "Stricter checks may provide a higher false-positive rate. We recommend defaulting to level \"0\", the lowest strictness setting, and increasing to \"1\" or \"2\" depending on your levels of abuse.",
-          "description": "Stricter checks may provide a higher false-positive rate. We recommend defaulting to level \"0\", the lowest strictness setting, and increasing to \"1\" or \"2\" depending on your levels of abuse."
+          "tooltip": "(Optional) Select the level of strictness you want to apply while retrieving the URL reputation. Stricter checks might lead to a higher false-positive rate. Therefore, it is recommended to set the strictness to level '0', the lowest strictness setting, and then increase it to '1' or '2' depending on your levels of abuse.",
+          "description": "(Optional) Select the level of strictness you want to apply while retrieving the URL reputation. Stricter checks might lead to a higher false-positive rate. Therefore, it is recommended to set the strictness to level '0', the lowest strictness setting, and then increase it to '1' or '2' depending on your levels of abuse."
         },
         {
           "title": "Fast",
@@ -393,8 +393,8 @@
           "editable": true,
           "type": "checkbox",
           "value": false,
-          "tooltip": "When enabled, the API will provide quicker response times using lighter checks and analysis. This setting defaults to false.",
-          "description": "When enabled, the API will provide quicker response times using lighter checks and analysis. This setting defaults to false."
+          "tooltip": "Select the 'Fast' parameter to greatly increases the API speed and provide quicker response times using lighter checks and analysis.",
+          "description": "Select the 'Fast' parameter to greatly increases the API speed and provide quicker response times using lighter checks and analysis."
         }
       ],
       "enabled": true

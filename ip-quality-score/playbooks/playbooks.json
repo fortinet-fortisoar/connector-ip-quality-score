@@ -812,7 +812,7 @@
   "macros": [
     {
       "name": "Demo_mode",
-      "value": "true",
+      "value": "false",
       "default_value": "false"
     }
   ],

@@ -2,25 +2,564 @@
   "type": "workflow_collections",
   "data": [
     {
-      "uuid": "b45d4aa6-1f0d-4360-b0b9-d31dd609dfe1",
+      "uuid": "86a457c0-445e-4ebb-94c3-f3c401f86c31",
       "@type": "WorkflowCollection",
-      "name": "Sample - IP Quality Score - 1.0.0",
+      "name": "Sample - IP Quality Score - 1.0.1",
       "description": "The IPQualityScore (IPQS) Threat Intelligence application provides threat intelligence for IP addresses, email addresses, URLs, and domains. This connector facilitates automated interactions with a IP Quality Score server using FortiSOAR\u2122 playbooks.",
       "visible": true,
       "image": null,
       "recordTags": [
+        "Ip",
         "ip-quality-score"
       ],
       "workflows": [
         {
           "@type": "Workflow",
-          "uuid": "704396d6-b77e-4d3f-923f-e23b3c5a8389",
-          "collection": "/api/3/workflow_collections/b45d4aa6-1f0d-4360-b0b9-d31dd609dfe1",
           "triggerLimit": null,
-          "description": "Retrieves a report from IPQualityScore for the ip address submitted to determine if it is suspicious based on the ip address you have specified.",
+          "name": "IP Address > IP Quality Score > Enrichment",
+          "aliasName": null,
+          "tag": null,
+          "description": "Retrieve the reputation of indicator of type ‘IP Address’ using IP Quality Score.",
+          "isActive": true,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [
+            "indicator_value",
+            "style_colors"
+          ],
+          "synchronous": false,
+          "lastModifyDate": 1659364376,
+          "collection": "/api/3/workflow_collections/b285ba3d-ed75-4d4d-a625-fec3020b160f",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/899586a2-05e7-4c1c-9707-6235e4b1ccdb",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "status": null,
+              "top": "30",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+              "group": null,
+              "uuid": "899586a2-05e7-4c1c-9707-6235e4b1ccdb"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Configuration",
+              "description": null,
+              "arguments": {
+                "good_score": "0",
+                "useMockOutput": "{{globalVars.Demo_mode}}",
+                "indicator_value": "{{vars.input.params['indicator_value']}}",
+                "malicious_score": "100-88",
+                "suspicious_score": "87-1"
+              },
+              "status": null,
+              "top": "165",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "94de1d1c-2f55-44cd-adfa-19e6840e3869"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get IP Reputation",
+              "description": null,
+              "arguments": {
+                "name": "IP Quality Score",
+                "config": "6d79f477-ec64-45f6-9414-298b2dbab56b",
+                "params": {
+                  "fast": false,
+                  "mobile": false,
+                  "ip_address": "{{vars.indicator_value}}",
+                  "strictness": 0,
+                  "user_agent": "",
+                  "user_language": "",
+                  "lighter_penalties": false,
+                  "transaction_strictness": 0,
+                  "allow_public_access_points": false
+                },
+                "version": "1.0.1",
+                "connector": "ip-quality-score",
+                "operation": "get_ip_reputation",
+                "mock_result": "{\n  \"data\": {\n    \"ASN\": 24295,\n    \"ISP\": \"Internap Japan Co.,Ltd.\",\n    \"tor\": false,\n    \"vpn\": true,\n    \"city\": \"Osaka\",\n    \"host\": \"twr002.rz5k8hm0o5\",\n    \"proxy\": true,\n    \"mobile\": false,\n    \"region\": \"Osaka\",\n    \"message\": \"Success\",\n    \"success\": true,\n    \"latitude\": 34.68999863,\n    \"timezone\": \"Asia/Tokyo\",\n    \"zip_code\": \"N/A\",\n    \"longitude\": 135.52000427,\n    \"active_tor\": false,\n    \"active_vpn\": false,\n    \"bot_status\": false,\n    \"is_crawler\": false,\n    \"request_id\": \"5uQ04JQwHe\",\n    \"fraud_score\": 87,\n    \"country_code\": \"JP\",\n    \"organization\": \"Internap Japan Co.,Ltd.\",\n    \"recent_abuse\": true,\n    \"abuse_velocity\": \"Premium required.\",\n    \"connection_type\": \"Premium required.\"\n  },\n  \"status\": \"Success\",\n  \"message\": \"\",\n  \"operation\": null\n}",
+                "operationTitle": "Get IP Reputation",
+                "pickFromTenant": false,
+                "step_variables": []
+              },
+              "status": null,
+              "top": "300",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "b6c6027a-3dae-4006-8917-cdb835410724"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Compute IQS Summary",
+              "description": null,
+              "arguments": {
+                "params": {
+                  "value": "<table class=\"no-border\">\n    <tr>\n        <th colspan=\"5\" class=\"no-background padding-0\">\n            <div class=\"font-size-11 ng-binding padding-bottom-sm\">\n                <h4 style=\"color: orange;\"\n                    class=\"body-default-bgcolor margin-bottom-0 padding-bottom-md padding-left-md padding-top-md text-align-left\">\n                    IP Quality Score(IQS) Detection Summary</h4>\n            </div>\n        </th>\n    </tr>\n    <tr class=\"solid-border\">\n        <td>\n            <div small class=\"control-label\">Fraud Score</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: 100px;\">\n                <div>{% if vars.steps.Get_IP_Reputation.data['fraud_score'] >= (vars.malicious_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_IP_Reputation.data['fraud_score']}}</div>\n                <div>{% elif vars.steps.Get_IP_Reputation.data['fraud_score'] <= (vars.suspicious_score.split('-')[0] | int) and vars.steps.Get_IP_Reputation.data['fraud_score'] >= (vars.suspicious_score.split('-')[1] | int) %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors.Suspicious}};padding: 11px;font-size: 18px !important;\">\n                            {{vars.steps.Get_IP_Reputation.data['fraud_score']}}</div>\n                        <div>{% elif vars.steps.Get_IP_Reputation.data['fraud_score'] == vars.good_score %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                            {{vars.steps.Get_IP_Reputation.data['fraud_score']}}</div>\n                        <div>{% else %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors['No Reputation Available']}};padding: 11px;font-size: 18px !important;\">\n                            {{vars.steps.Get_IP_Reputation.data['fraud_score']}}</div>\n                        <div>{% endif %}</div>\n                </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">Recent Abuse</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: auto;\">\n                <div>{% if vars.steps.Get_IP_Reputation.data.recent_abuse %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_IP_Reputation.data.recent_abuse}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_IP_Reputation.data.recent_abuse}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">Proxy</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: auto;\">\n                <div>{% if vars.steps.Get_IP_Reputation.data.proxy %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_IP_Reputation.data.proxy}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_IP_Reputation.data.proxy}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">TOR</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: auto;\">\n                <div>{% if vars.steps.Get_IP_Reputation.data.tor %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_IP_Reputation.data.tor}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_IP_Reputation.data.tor}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">VPN</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: auto;\">\n                <div>{% if vars.steps.Get_IP_Reputation.data.vpn %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_IP_Reputation.data.vpn}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_IP_Reputation.data.vpn}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n    </tr>\n</table>"
+                },
+                "version": "3.2.1",
+                "connector": "cyops_utilities",
+                "operation": "format_richtext",
+                "operationTitle": "Utils: Format as RichText",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "435",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "e68da6f4-1ef4-4edd-9446-8643f71dc762"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Return Output Data",
+              "description": null,
+              "arguments": {
+                "verdict": "{% if vars.steps.Get_IP_Reputation.data['fraud_score'] >= 88 %}{{\"Malicious\"}}{% elif vars.steps.Get_IP_Reputation.data['fraud_score'] > 0 and vars.steps.Get_IP_Reputation.data['fraud_score'] < 88 %}{{\"Suspicious\"}}{% elif vars.steps.Get_IP_Reputation.data['fraud_score'] == 0 %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "cti_name": "IPQualityScore",
+                "cti_score": "{{vars.steps.Get_IP_Reputation.data['fraud_score']}}",
+                "source_data": "{\"IPQualityScore\": {{vars.steps.Get_IP_Reputation.data}} }",
+                "field_mapping": "{\"asn\": {% if vars.steps.Get_IP_Reputation.data.ASN %}{{vars.steps.Get_IP_Reputation.data.ASN}}{% else %}{{None}}{% endif %}, \"isp\": {% if vars.steps.Get_IP_Reputation.data.ISP %}\"{{vars.steps.Get_IP_Reputation.data.ISP}}\"{% else %}{{None}}{% endif %}, \"city\": {% if vars.steps.Get_IP_Reputation.data.city %}\"{{vars.steps.Get_IP_Reputation.data.city}}\"{% else %}{{None}}{% endif %}, \"host\": {% if vars.steps.Get_IP_Reputation.data.host %}\"{{vars.steps.Get_IP_Reputation.data.host}}\"{% else %}{{None}}{% endif %}, \"region\": {% if vars.steps.Get_IP_Reputation.data.region %}\"{{vars.steps.Get_IP_Reputation.data.region}}\"{% else %}{{None}}{% endif %}, \"timezone\": {% if vars.steps.Get_IP_Reputation.data.timezone %}\"{{vars.steps.Get_IP_Reputation.data.timezone}}\"{% else %}{{None}}{% endif %}, \"country_code\": {% if vars.steps.Get_IP_Reputation.data.country_code %}\"{{vars.steps.Get_IP_Reputation.data.country_code}}\"{% else %}{{None}}{% endif %}, \"organization\": {% if vars.steps.Get_IP_Reputation.data.organization %}\"{{vars.steps.Get_IP_Reputation.data.organization}}\"{% else %}{{None}}{% endif %}}",
+                "enrichment_summary": "{{vars.steps.Compute_IQS_Summary.data['formatted_string']}}"
+              },
+              "status": null,
+              "top": "570",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "fa9cfa93-9e4a-4707-ab27-4a2100be5426"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Configuration -> Get IP Reputation",
+              "targetStep": "/api/3/workflow_steps/b6c6027a-3dae-4006-8917-cdb835410724",
+              "sourceStep": "/api/3/workflow_steps/94de1d1c-2f55-44cd-adfa-19e6840e3869",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "1283f344-2971-401e-8f40-0972ac4ef73a"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start -> Configuration",
+              "targetStep": "/api/3/workflow_steps/94de1d1c-2f55-44cd-adfa-19e6840e3869",
+              "sourceStep": "/api/3/workflow_steps/899586a2-05e7-4c1c-9707-6235e4b1ccdb",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "2c4aceee-cafd-425e-bd69-ff0e10f66c58"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Compute VT Summary -> Output Data",
+              "targetStep": "/api/3/workflow_steps/fa9cfa93-9e4a-4707-ab27-4a2100be5426",
+              "sourceStep": "/api/3/workflow_steps/e68da6f4-1ef4-4edd-9446-8643f71dc762",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "3b62f282-c875-4842-9bee-ccee49f14e08"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Get IP Reputation -> Compute IQS Summary",
+              "targetStep": "/api/3/workflow_steps/e68da6f4-1ef4-4edd-9446-8643f71dc762",
+              "sourceStep": "/api/3/workflow_steps/b6c6027a-3dae-4006-8917-cdb835410724",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "986ae436-3f97-4e6d-9ea6-7334fa9c1924"
+            }
+          ],
+          "groups": [],
+          "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "uuid": "23dc6e04-0111-4b32-9758-6d5aa8fe063c",
+          "id": 635,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Subroutine",
+            "IP_Enrichment"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Email Address > IP Quality Score > Enrichment",
+          "aliasName": null,
+          "tag": null,
+          "description": "Retrieve the reputation of indicator of type ‘Email Address’ using IP Quality Score.",
+          "isActive": true,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [
+            "indicator_value",
+            "style_colors"
+          ],
+          "synchronous": false,
+          "lastModifyDate": 1659364350,
+          "collection": "/api/3/workflow_collections/b285ba3d-ed75-4d4d-a625-fec3020b160f",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/720017f0-9e46-4fb5-8e38-f222bcd47dc9",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Return Output Data",
+              "description": null,
+              "arguments": {
+                "verdict": "{% if vars.steps.Get_Email_Reputation.data['fraud_score'] >= 90 %}{{\"Malicious\"}}{% elif ars.steps.Get_Email_Reputation.data['fraud_score'] > 0 and vars.steps.Get_Email_Reputation.data['fraud_score'] < 90 %}{{\"Suspicious\"}}{% elif vars.steps.Get_Email_Reputation.data['fraud_score'] == 0 %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "cti_name": "IPQualityScore",
+                "cti_score": "{{vars.steps.Get_Email_Reputation.data['fraud_score']}}",
+                "source_data": "{\"IPQualityScore\": {{vars.steps.Get_Email_Reputation.data}} }",
+                "field_mapping": "{\"suspect\": {{vars.steps.Get_Email_Reputation.data.suspect}}, \"dns_valid\": {{vars.steps.Get_Email_Reputation.data.dns_valid}}, \"disposable\": {{vars.steps.Get_Email_Reputation.data.disposable}}, \"smtp_score\": {% if vars.steps.Get_Email_Reputation.data.smtp_score %}{{vars.steps.Get_Email_Reputation.data.smtp_score}}{% else %}{{None}}{% endif %}, \"recent_abuse\": {{vars.steps.Get_Email_Reputation.data.recent_abuse}}, \"deliverability\": {% if vars.steps.Get_Email_Reputation.data.deliverability %}\"{{vars.steps.Get_Email_Reputation.data.deliverability}}\"{% else %}{{None}}{% endif %}, \"frequent_complainer\": {{vars.steps.Get_Email_Reputation.data.frequent_complainer}} }",
+                "enrichment_summary": "{{vars.steps.Compute_IQS_Summary.data['formatted_string']}}"
+              },
+              "status": null,
+              "top": "570",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "593f2a47-64db-483c-8c39-deddd73d3b0a"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Configuration",
+              "description": null,
+              "arguments": {
+                "good_score": "0",
+                "useMockOutput": "{{globalVars.Demo_mode}}",
+                "indicator_value": "{{vars.input.params['indicator_value']}}",
+                "malicious_score": "100-90",
+                "suspicious_score": "89-1"
+              },
+              "status": null,
+              "top": "165",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "61ec5e65-7715-49cb-9577-6304051bc24c"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "status": null,
+              "top": "30",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+              "group": null,
+              "uuid": "720017f0-9e46-4fb5-8e38-f222bcd47dc9"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Compute IQS Summary",
+              "description": null,
+              "arguments": {
+                "params": {
+                  "value": "<table class=\"no-border\">\n    <tr>\n        <th colspan=\"4\" class=\"no-background padding-0\">\n            <div class=\"font-size-11 ng-binding padding-bottom-sm\">\n                <h4 style=\"color: orange;\"\n                    class=\"body-default-bgcolor margin-bottom-0 padding-bottom-md padding-left-md padding-top-md text-align-left\">\n                    IP Quality Score(IQS) Detection Summary</h4>\n            </div>\n        </th>\n    </tr>\n    <tr class=\"solid-border\">\n        <td>\n            <div small class=\"control-label\">Fraud Score</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: 100px;\">\n                <div>{% if vars.steps.Get_Email_Reputation.data['fraud_score'] >= (vars.malicious_score.split('-')[1] | int) %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Email_Reputation.data['fraud_score']}}</div>\n                <div>{% elif vars.steps.Get_Email_Reputation.data['fraud_score'] <= (vars.suspicious_score.split('-')[0] | int) and vars.steps.Get_Email_Reputation.data['fraud_score'] >= (vars.suspicious_score.split('-')[1] | int) %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors.Suspicious}};padding: 11px;font-size: 18px !important;\">\n                            {{vars.steps.Get_Email_Reputation.data['fraud_score']}}</div>\n                        <div>{% elif vars.steps.Get_Email_Reputation.data['fraud_score'] == vars.good_score %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                            {{vars.steps.Get_Email_Reputation.data['fraud_score']}}</div>\n                        <div>{% else %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors['No Reputation Available']}};padding: 11px;font-size: 18px !important;\">\n                            {{vars.steps.Get_Email_Reputation.data['fraud_score']}}</div>\n                        <div>{% endif %}</div>\n                </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">Spam Trap Score</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: 100px;\">\n                <div>{% if vars.steps.Get_Email_Reputation.data['spam_trap_score'] == 'high' %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    High</div>\n                <div>{% elif vars.steps.Get_Email_Reputation.data['spam_trap_score'] == 'medium' %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors.Suspicious}};padding: 11px;font-size: 18px !important;\">\n                            Medium</div>\n                        <div>{% elif vars.steps.Get_Email_Reputation.data['spam_trap_score'] == 'low' %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                            Low</div>\n                        <div>{% else %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors['No Reputation Available']}};padding: 11px;font-size: 18px !important;\">\n                            None</div>\n                        <div>{% endif %}</div>\n                </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">Leaked</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: auto;\">\n                <div>{% if vars.steps.Get_Email_Reputation.data.leaked %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Email_Reputation.data.leaked}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Email_Reputation.data.leaked}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">Honeypot</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: auto;\">\n                <div>{% if vars.steps.Get_Email_Reputation.data.honeypot %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Email_Reputation.data.honeypot}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_Email_Reputation.data.honeypot}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n    </tr>\n</table>"
+                },
+                "version": "3.2.1",
+                "connector": "cyops_utilities",
+                "operation": "format_richtext",
+                "operationTitle": "Utils: Format as RichText",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "435",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "9a9d991a-cf00-4f77-b6bb-19d6e4ef2d53"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Email Reputation",
+              "description": null,
+              "arguments": {
+                "name": "IP Quality Score",
+                "config": "6d79f477-ec64-45f6-9414-298b2dbab56b",
+                "params": {
+                  "fast": false,
+                  "timeout": 7,
+                  "strictness": 0,
+                  "email_address": "{{vars.indicator_value}}",
+                  "suggest_domain": false,
+                  "abuse_strictness": 0
+                },
+                "version": "1.0.1",
+                "connector": "ip-quality-score",
+                "operation": "get_email_reputation",
+                "mock_result": "{\n  \"data\": {\n    \"valid\": false,\n    \"common\": true,\n    \"leaked\": true,\n    \"generic\": true,\n    \"message\": \"Success.\",\n    \"success\": true,\n    \"suspect\": false,\n    \"honeypot\": true,\n    \"catch_all\": false,\n    \"dns_valid\": true,\n    \"timed_out\": false,\n    \"disposable\": false,\n    \"domain_age\": {\n      \"iso\": \"1995-08-13T00:00:00-04:00\",\n      \"human\": \"27 years ago\",\n      \"timestamp\": 808286400\n    },\n    \"first_name\": \"Corporate\",\n    \"first_seen\": {\n      \"iso\": \"2017-01-01T01:01:01-05:00\",\n      \"human\": \"6 years ago\",\n      \"timestamp\": 1483250461\n    },\n    \"request_id\": \"5u96QHEuon\",\n    \"smtp_score\": 1,\n    \"fraud_score\": 100,\n    \"recent_abuse\": true,\n    \"overall_score\": 1,\n    \"user_activity\": \"Enterprise L4+ required.\",\n    \"deliverability\": \"low\",\n    \"domain_velocity\": \"Enterprise Mini or higher required.\",\n    \"sanitized_email\": \"{{vars.indicator_value}}\",\n    \"spam_trap_score\": \"high\",\n    \"associated_names\": {\n      \"names\": [],\n      \"status\": \"Enterprise Plus or higher required.\"\n    },\n    \"suggested_domain\": \"N/A\",\n    \"frequent_complainer\": true,\n    \"associated_phone_numbers\": {\n      \"status\": \"Enterprise Plus or higher required.\",\n      \"phone_numbers\": []\n    }\n  },\n  \"status\": \"Success\",\n  \"message\": \"\",\n  \"operation\": null\n}",
+                "operationTitle": "Get Email Reputation",
+                "pickFromTenant": false,
+                "step_variables": []
+              },
+              "status": null,
+              "top": "300",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "9cf889cb-1888-4f94-ab91-33e9eb661408"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Compute VT Summary -> Output Data",
+              "targetStep": "/api/3/workflow_steps/593f2a47-64db-483c-8c39-deddd73d3b0a",
+              "sourceStep": "/api/3/workflow_steps/9a9d991a-cf00-4f77-b6bb-19d6e4ef2d53",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "3fc13141-50b6-4361-949d-b368e1545710"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start -> Configuration",
+              "targetStep": "/api/3/workflow_steps/61ec5e65-7715-49cb-9577-6304051bc24c",
+              "sourceStep": "/api/3/workflow_steps/720017f0-9e46-4fb5-8e38-f222bcd47dc9",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "6b44fe71-e90a-4f3a-901d-02c3c644189a"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Configuration -> Get Email Reputation",
+              "targetStep": "/api/3/workflow_steps/9cf889cb-1888-4f94-ab91-33e9eb661408",
+              "sourceStep": "/api/3/workflow_steps/61ec5e65-7715-49cb-9577-6304051bc24c",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "78eb5aec-37e3-4cac-8b15-67c6920507a3"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Get IP Reputation -> Compute IQS Summary",
+              "targetStep": "/api/3/workflow_steps/9a9d991a-cf00-4f77-b6bb-19d6e4ef2d53",
+              "sourceStep": "/api/3/workflow_steps/9cf889cb-1888-4f94-ab91-33e9eb661408",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "b053056d-4d46-4ad0-813e-adbca4506e3e"
+            }
+          ],
+          "groups": [],
+          "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "uuid": "56903948-9456-4f9c-ae66-99c3aa765a0a",
+          "id": 641,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Subroutine",
+            "Email_Enrichment"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "URL > IP Quality Score > Enrichment",
+          "aliasName": null,
+          "tag": null,
+          "description": "Retrieve the reputation of indicator of type ‘URL’ using IP Quality Score",
+          "isActive": true,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [
+            "indicator_value",
+            "style_colors"
+          ],
+          "synchronous": false,
+          "lastModifyDate": 1659364320,
+          "collection": "/api/3/workflow_collections/b285ba3d-ed75-4d4d-a625-fec3020b160f",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/ea801c0f-df79-45d8-9c1b-10590bef9204",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Return Output Data",
+              "description": null,
+              "arguments": {
+                "verdict": "{% if vars.steps.Get_URL_Reputation.data['risk_score'] == 100 %}{{\"Malicious\"}}{% elif vars.steps.Get_URL_Reputation.data['risk_score'] > 0 and vars.steps.Get_URL_Reputation.data['risk_score'] < 100 %}{{\"Suspicious\"}}{% elif vars.steps.Get_URL_Reputation.data['risk_score'] == 0 %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "cti_name": "IPQualityScore",
+                "cti_score": "{{vars.steps.Get_URL_Reputation.data['risk_score']}}",
+                "source_data": "{\"IPQualityScore\": {{vars.steps.Get_URL_Reputation.data}} }",
+                "field_mapping": "{\"unsafe\": {{vars.steps.Get_URL_Reputation.data.unsafe}}, \"parking\": {{vars.steps.Get_URL_Reputation.data.parking}}, \"dns_valid\": {{vars.steps.Get_URL_Reputation.data.dns_valid}}, \"suspicious\": {{vars.steps.Get_URL_Reputation.data.suspicious }}, \"domain_rank\": {% if vars.steps.Get_URL_Reputation.data.domain_rank %}{{vars.steps.Get_URL_Reputation.data.domain_rank}}{% else %}{{None}}{% endif %}, \"category\": {% if vars.steps.Get_URL_Reputation.data.category %}\"{{vars.steps.Get_URL_Reputation.data.category}}\"{% else %}{{None}}{% endif %}, \"ip_address\": {% if vars.steps.Get_URL_Reputation.data.ip_address %}\"{{vars.steps.Get_URL_Reputation.data.ip_address}}\"{% else %}{{None}}{% endif %} }",
+                "enrichment_summary": "{{vars.steps.Compute_IQS_Summary.data['formatted_string']}}"
+              },
+              "status": null,
+              "top": "570",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "24f6d94f-b145-4493-b7a1-6e40ed012a25"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get URL Reputation",
+              "description": null,
+              "arguments": {
+                "name": "IP Quality Score",
+                "config": "6d79f477-ec64-45f6-9414-298b2dbab56b",
+                "params": {
+                  "url": "{{vars.indicator_value}}",
+                  "fast": false,
+                  "strictness": 0
+                },
+                "version": "1.0.1",
+                "connector": "ip-quality-score",
+                "operation": "get_url_reputation",
+                "mock_result": "{\n  \"data\": {\n    \"adult\": false,\n    \"domain\": \"{{vars.indicator_value}}\",\n    \"server\": \"Apache\",\n    \"unsafe\": false,\n    \"malware\": false,\n    \"message\": \"Success.\",\n    \"parking\": false,\n    \"success\": true,\n    \"category\": \"Social Network\",\n    \"phishing\": false,\n    \"spamming\": false,\n    \"dns_valid\": true,\n    \"page_size\": 3909,\n    \"domain_age\": {\n      \"iso\": \"2006-03-28T19:25:07-05:00\",\n      \"human\": \"16 years ago\",\n      \"timestamp\": 1143591907\n    },\n    \"ip_address\": \"199.34.228.54\",\n    \"request_id\": \"5qnzLL1FsV\",\n    \"risk_score\": 0,\n    \"suspicious\": false,\n    \"domain_rank\": 101,\n    \"status_code\": 404,\n    \"content_type\": \"text/html; charset=UTF-8\"\n  },\n  \"status\": \"Success\",\n  \"message\": \"\",\n  \"operation\": null\n}",
+                "operationTitle": "Get URL Reputation",
+                "pickFromTenant": false,
+                "step_variables": []
+              },
+              "status": null,
+              "top": "300",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "a70347d7-3744-4c13-996e-77e98767e039"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Compute IQS Summary",
+              "description": null,
+              "arguments": {
+                "params": {
+                  "value": "<table class=\"no-border\">\n    <tr>\n        <th colspan=\"5\" class=\"no-background padding-0\">\n            <div class=\"font-size-11 ng-binding padding-bottom-sm\">\n                <h4 style=\"color: orange;\"\n                    class=\"body-default-bgcolor margin-bottom-0 padding-bottom-md padding-left-md padding-top-md text-align-left\">\n                    IP Quality Score(IQS) Detection Summary</h4>\n            </div>\n        </th>\n    </tr>\n    <tr class=\"solid-border\">\n        <td>\n            <div small class=\"control-label\">Risk Score</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: 100px;\">\n                <div>{% if vars.steps.Get_URL_Reputation.data['risk_score'] == vars.malicious_score %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_URL_Reputation.data['risk_score']}}</div>\n                <div>{% elif vars.steps.Get_URL_Reputation.data['risk_score'] <= (vars.suspicious_score.split('-')[0] | int) and\n                    vars.steps.Get_URL_Reputation.data['risk_score'] >= (vars.suspicious_score.split('-')[1] | int)  %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors.Suspicious}};padding: 11px;font-size: 18px !important;\">\n                            {{vars.steps.Get_URL_Reputation.data['risk_score']}}</div>\n                        <div>{% elif vars.steps.Get_URL_Reputation.data['risk_score'] == vars.good_score %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                            {{vars.steps.Get_URL_Reputation.data['risk_score']}}</div>\n                        <div>{% else %}</div>\n                        <div class=\"body-default-bgcolor card-number padding-left-md\"\n                            style=\"border-left: 5px solid {{vars.input.params.style_colors['No Reputation Available']}};padding: 11px;font-size: 18px !important;\">\n                            {{vars.steps.Get_URL_Reputation.data['risk_score']}}</div>\n                        <div>{% endif %}</div>\n                </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">Malware</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: auto;\">\n                <div>{% if vars.steps.Get_URL_Reputation.data.malware %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_URL_Reputation.data.malware}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_URL_Reputation.data.malware}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">Phishing</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: auto;\">\n                <div>{% if vars.steps.Get_URL_Reputation.data.phishing %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_URL_Reputation.data.phishing}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_URL_Reputation.data.phishing}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">Spamming</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: auto;\">\n                <div>{% if vars.steps.Get_URL_Reputation.data.spamming %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Malicious}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_URL_Reputation.data.spamming}}</div>\n                <div>{% else %}</div>\n                <div class=\"body-default-bgcolor card-number padding-left-md\"\n                    style=\"border-left: 5px solid {{vars.input.params.style_colors.Good}};padding: 11px;font-size: 18px !important;\">\n                    {{vars.steps.Get_URL_Reputation.data.spamming}}</div>\n                <div>{% endif %}</div>\n            </div>\n        </td>\n        <td>\n            <div small class=\"control-label\">Category</div>\n            <div class=\"card-container-body margin-left-0\" style=\"width: auto;\">\n                <div class=\"text-capitalize body-default-bgcolor card-number padding-left-md\"\n                    style=\"padding: 13px;border-left-width: 1px;border-left-color: #dcdcdc;font-size: 15px !important;\">\n                    {{vars.steps.Get_URL_Reputation.data.category}}</div>\n            </div>\n        </td>\n    </tr>\n</table>"
+                },
+                "version": "3.2.1",
+                "connector": "cyops_utilities",
+                "operation": "format_richtext",
+                "operationTitle": "Utils: Format as RichText",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "435",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "group": null,
+              "uuid": "dbbd678b-d672-49c5-a3a9-dadc8ccbc5df"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Configuration",
+              "description": null,
+              "arguments": {
+                "good_score": "0",
+                "useMockOutput": "{{globalVars.Demo_mode}}",
+                "indicator_value": "{{vars.input.params['indicator_value']}}",
+                "malicious_score": "100",
+                "suspicious_score": "99-1"
+              },
+              "status": null,
+              "top": "165",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "group": null,
+              "uuid": "dd7592ca-3c67-45b2-9626-7553baa8babc"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "status": null,
+              "top": "30",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+              "group": null,
+              "uuid": "ea801c0f-df79-45d8-9c1b-10590bef9204"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Compute VT Summary -> Output Data",
+              "targetStep": "/api/3/workflow_steps/24f6d94f-b145-4493-b7a1-6e40ed012a25",
+              "sourceStep": "/api/3/workflow_steps/dbbd678b-d672-49c5-a3a9-dadc8ccbc5df",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "3ff0d3f0-c2f4-46a8-b6c2-2903da9cc0c6"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start -> Configuration",
+              "targetStep": "/api/3/workflow_steps/dd7592ca-3c67-45b2-9626-7553baa8babc",
+              "sourceStep": "/api/3/workflow_steps/ea801c0f-df79-45d8-9c1b-10590bef9204",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "53a2836b-3f35-4d91-9d19-8e145dec73aa"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Configuration -> Get URL Reputation",
+              "targetStep": "/api/3/workflow_steps/a70347d7-3744-4c13-996e-77e98767e039",
+              "sourceStep": "/api/3/workflow_steps/dd7592ca-3c67-45b2-9626-7553baa8babc",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "8ce1d2d9-8fbc-4c80-9ffd-01c909d9c8cc"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Get IP Reputation -> Compute IQS Summary",
+              "targetStep": "/api/3/workflow_steps/dbbd678b-d672-49c5-a3a9-dadc8ccbc5df",
+              "sourceStep": "/api/3/workflow_steps/a70347d7-3744-4c13-996e-77e98767e039",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "bc36e867-9c7b-4ad7-b91d-d4db2b3a8120"
+            }
+          ],
+          "groups": [],
+          "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "uuid": "a851d84b-dbd3-4835-879c-215d9e346e27",
+          "id": 646,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Subroutine",
+            "URL_Enrichment"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "9a302e35-c72c-4c78-a1e7-434498c9791c",
+          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
+          "triggerLimit": null,
+          "description": "Retrieves the reputation of the submitted IP address from IPQualityScore based on the IP address and other input parameters you have specified.",
           "name": "Get IP Reputation",
           "tag": "#IP Quality Score",
           "recordTags": [
+            "Ip",
             "ip-quality-score"
           ],
           "isActive": false,
@@ -28,16 +567,16 @@
           "singleRecordExecution": false,
           "parameters": [],
           "synchronous": false,
-          "triggerStep": "/api/3/workflow_steps/37c123a9-6e16-490a-8a84-4510c4b7ccc2",
+          "triggerStep": "/api/3/workflow_steps/b2a57992-da3c-4e6c-9f46-3d3bd8eef85a",
           "steps": [
             {
-              "uuid": "37c123a9-6e16-490a-8a84-4510c4b7ccc2",
+              "uuid": "b2a57992-da3c-4e6c-9f46-3d3bd8eef85a",
               "@type": "WorkflowStep",
               "name": "Start",
               "description": null,
               "status": null,
               "arguments": {
-                "route": "ea638914-f5b1-4ad6-91d2-89d101d38ce7",
+                "route": "c3eb70fe-dd79-430b-965e-ec9d315f7f5a",
                 "title": "IP Quality Score: Get IP Reputation",
                 "resources": [
                   "alerts"
@@ -57,7 +596,7 @@
               "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
             },
             {
-              "uuid": "6e596264-bdc4-42f7-a980-b8bece6fe137",
+              "uuid": "23e7c252-1d78-4c8c-bcff-aef2acf2d31c",
               "@type": "WorkflowStep",
               "name": "Get IP Reputation",
               "description": null,
@@ -66,18 +605,14 @@
                 "name": "IP Quality Score",
                 "config": "''",
                 "params": {
-                  "strictness": [
-                    "0"
-                  ],
+                  "strictness": 0,
                   "fast": false,
                   "mobile": false,
                   "allow_public_access_points": false,
                   "lighter_penalties": false,
-                  "transaction_strictness": [
-                    "0"
-                  ]
+                  "transaction_strictness": 0
                 },
-                "version": "1.0.0",
+                "version": "1.0.1",
                 "connector": "ip-quality-score",
                 "operation": "get_ip_reputation",
                 "operationTitle": "Get IP Reputation",
@@ -93,24 +628,25 @@
           "routes": [
             {
               "@type": "WorkflowRoute",
-              "uuid": "fcbb0b8c-6b84-46f7-9d74-a468a86cccbf",
+              "uuid": "673ce66e-3408-4b49-b2b5-0bde03d31b31",
               "label": null,
               "isExecuted": false,
               "name": "Start-> Get IP Reputation",
-              "sourceStep": "/api/3/workflow_steps/37c123a9-6e16-490a-8a84-4510c4b7ccc2",
-              "targetStep": "/api/3/workflow_steps/6e596264-bdc4-42f7-a980-b8bece6fe137"
+              "sourceStep": "/api/3/workflow_steps/b2a57992-da3c-4e6c-9f46-3d3bd8eef85a",
+              "targetStep": "/api/3/workflow_steps/23e7c252-1d78-4c8c-bcff-aef2acf2d31c"
             }
           ]
         },
         {
           "@type": "Workflow",
-          "uuid": "0a4c775d-067f-43c6-ba86-c0d92e5efad0",
-          "collection": "/api/3/workflow_collections/b45d4aa6-1f0d-4360-b0b9-d31dd609dfe1",
+          "uuid": "1f97e6dd-8c70-44d4-8c5e-40cdc644c388",
+          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
           "triggerLimit": null,
-          "description": "Retrieves a report from IPQualityScore for the Email address submitted to determine if it is suspicious based on the Email address you have specified.",
+          "description": "Retrieves the reputation of the submitted email address from IPQualityScore based on the email address and other input parameters you have specified.",
           "name": "Get Email Reputation",
           "tag": "#IP Quality Score",
           "recordTags": [
+            "Ip",
             "ip-quality-score"
           ],
           "isActive": false,
@@ -118,16 +654,16 @@
           "singleRecordExecution": false,
           "parameters": [],
           "synchronous": false,
-          "triggerStep": "/api/3/workflow_steps/15902898-6285-4997-9f62-53a7ed1d9481",
+          "triggerStep": "/api/3/workflow_steps/8bdbde91-050c-43fb-911c-9951478c26d2",
           "steps": [
             {
-              "uuid": "15902898-6285-4997-9f62-53a7ed1d9481",
+              "uuid": "8bdbde91-050c-43fb-911c-9951478c26d2",
               "@type": "WorkflowStep",
               "name": "Start",
               "description": null,
               "status": null,
               "arguments": {
-                "route": "4aceaaec-53f6-47e4-a0d8-9852acfd874e",
+                "route": "8f175b36-3426-41db-83af-0856abd05137",
                 "title": "IP Quality Score: Get Email Reputation",
                 "resources": [
                   "alerts"
@@ -147,7 +683,7 @@
               "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
             },
             {
-              "uuid": "7e9371df-cadc-4f22-9faa-a5dcb338c011",
+              "uuid": "4471a9ac-a2c2-47c9-9c4e-e21301d7795c",
               "@type": "WorkflowStep",
               "name": "Get Email Reputation",
               "description": null,
@@ -159,14 +695,10 @@
                   "fast": false,
                   "timeout": 7,
                   "suggest_domain": false,
-                  "strictness": [
-                    "0"
-                  ],
-                  "abuse_strictness": [
-                    "0"
-                  ]
+                  "strictness": 0,
+                  "abuse_strictness": 0
                 },
-                "version": "1.0.0",
+                "version": "1.0.1",
                 "connector": "ip-quality-score",
                 "operation": "get_email_reputation",
                 "operationTitle": "Get Email Reputation",
@@ -182,24 +714,25 @@
           "routes": [
             {
               "@type": "WorkflowRoute",
-              "uuid": "db6ca82d-6d13-44ce-bcbc-fbbcb8acadc9",
+              "uuid": "cb019264-0ca3-45ba-9eff-f02cd41e3eed",
               "label": null,
               "isExecuted": false,
               "name": "Start-> Get Email Reputation",
-              "sourceStep": "/api/3/workflow_steps/15902898-6285-4997-9f62-53a7ed1d9481",
-              "targetStep": "/api/3/workflow_steps/7e9371df-cadc-4f22-9faa-a5dcb338c011"
+              "sourceStep": "/api/3/workflow_steps/8bdbde91-050c-43fb-911c-9951478c26d2",
+              "targetStep": "/api/3/workflow_steps/4471a9ac-a2c2-47c9-9c4e-e21301d7795c"
             }
           ]
         },
         {
           "@type": "Workflow",
-          "uuid": "902cec98-d702-4e3f-9603-c4fac59e8747",
-          "collection": "/api/3/workflow_collections/b45d4aa6-1f0d-4360-b0b9-d31dd609dfe1",
+          "uuid": "02ecf263-864c-4f98-a9e2-45f9ad558a58",
+          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
           "triggerLimit": null,
-          "description": "Retrieves a report from IPQualityScore for the URL submitted to determine if it is suspicious based on the URL you have specified.",
+          "description": "Retrieves the reputation of the submitted URL from IPQualityScore based on the URL and other input parameters you have specified.",
           "name": "Get URL Reputation",
           "tag": "#IP Quality Score",
           "recordTags": [
+            "Ip",
             "ip-quality-score"
           ],
           "isActive": false,
@@ -207,16 +740,16 @@
           "singleRecordExecution": false,
           "parameters": [],
           "synchronous": false,
-          "triggerStep": "/api/3/workflow_steps/c6617efa-8cb9-4a15-8c5d-11127ee91a0e",
+          "triggerStep": "/api/3/workflow_steps/70fa7084-0764-459f-8b69-6f048f41f486",
           "steps": [
             {
-              "uuid": "c6617efa-8cb9-4a15-8c5d-11127ee91a0e",
+              "uuid": "70fa7084-0764-459f-8b69-6f048f41f486",
               "@type": "WorkflowStep",
               "name": "Start",
               "description": null,
               "status": null,
               "arguments": {
-                "route": "6cc57511-0490-415c-85de-8b075603540b",
+                "route": "f97079f1-44cc-45ec-acd0-a07821fd950b",
                 "title": "IP Quality Score: Get URL Reputation",
                 "resources": [
                   "alerts"
@@ -236,7 +769,7 @@
               "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
             },
             {
-              "uuid": "6b3b9643-662e-4f7a-a045-e2b3c2c43a9a",
+              "uuid": "d6fa1eff-bdb4-4b36-86f8-40b39143dc79",
               "@type": "WorkflowStep",
               "name": "Get URL Reputation",
               "description": null,
@@ -245,12 +778,10 @@
                 "name": "IP Quality Score",
                 "config": "''",
                 "params": {
-                  "strictness": [
-                    "0"
-                  ],
+                  "strictness": 0,
                   "fast": false
                 },
-                "version": "1.0.0",
+                "version": "1.0.1",
                 "connector": "ip-quality-score",
                 "operation": "get_url_reputation",
                 "operationTitle": "Get URL Reputation",
@@ -266,16 +797,29 @@
           "routes": [
             {
               "@type": "WorkflowRoute",
-              "uuid": "00531979-ff9e-44eb-8727-47848e47bb7f",
+              "uuid": "e8a69fb4-76b2-43ea-95aa-503e004749d4",
               "label": null,
               "isExecuted": false,
               "name": "Start-> Get URL Reputation",
-              "sourceStep": "/api/3/workflow_steps/c6617efa-8cb9-4a15-8c5d-11127ee91a0e",
-              "targetStep": "/api/3/workflow_steps/6b3b9643-662e-4f7a-a045-e2b3c2c43a9a"
+              "sourceStep": "/api/3/workflow_steps/70fa7084-0764-459f-8b69-6f048f41f486",
+              "targetStep": "/api/3/workflow_steps/d6fa1eff-bdb4-4b36-86f8-40b39143dc79"
             }
           ]
         }
       ]
     }
+  ],
+  "macros": [
+    {
+      "name": "Demo_mode",
+      "value": "false",
+      "default_value": "false"
+    }
+  ],
+  "exported_tags": [
+    "Subroutine",
+    "IP_Enrichment",
+    "Email_Enrichment",
+    "URL_Enrichment"
   ]
 }

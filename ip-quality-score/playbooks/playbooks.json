@@ -286,7 +286,7 @@
               "name": "Return Output Data",
               "description": null,
               "arguments": {
-                "verdict": "{% if vars.steps.Get_Email_Reputation.data['fraud_score'] >= 90 %}{{\"Malicious\"}}{% elif ars.steps.Get_Email_Reputation.data['fraud_score'] > 0 and vars.steps.Get_Email_Reputation.data['fraud_score'] < 90 %}{{\"Suspicious\"}}{% elif vars.steps.Get_Email_Reputation.data['fraud_score'] == 0 %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "verdict": "{% if vars.steps.Get_Email_Reputation.data['fraud_score'] >= 90 %}{{\"Malicious\"}}{% elif vars.steps.Get_Email_Reputation.data['fraud_score'] > 0 and vars.steps.Get_Email_Reputation.data['fraud_score'] < 90 %}{{\"Suspicious\"}}{% elif vars.steps.Get_Email_Reputation.data['fraud_score'] == 0 %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
                 "cti_name": "IPQualityScore",
                 "cti_score": "{{vars.steps.Get_Email_Reputation.data['fraud_score']}}",
                 "source_data": "{\"IPQualityScore\": {{vars.steps.Get_Email_Reputation.data}} }",

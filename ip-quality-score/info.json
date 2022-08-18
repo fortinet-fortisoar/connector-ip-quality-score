@@ -2,7 +2,7 @@
   "name": "ip-quality-score",
   "label": "IP Quality Score",
   "description": "The IPQualityScore (IPQS) Threat Intelligence application provides threat intelligence for IP addresses, email addresses, URLs, and domains. This connector facilitates automated interactions with a IP Quality Score server using FortiSOAR™ playbooks.",
-  "publisher": "Community",
+  "publisher": "Fortinet",
   "cs_approved": false,
   "cs_compatible": true,
   "version": "1.0.1",

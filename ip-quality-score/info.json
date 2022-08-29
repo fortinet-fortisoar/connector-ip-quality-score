@@ -9,6 +9,12 @@
   "category": "Threat Intelligence",
   "icon_small_name": "small.png",
   "icon_large_name": "large.png",
+  "tags": [
+    "Enrichment",
+    "IP_Enrichment",
+    "URL_Enrichment",
+    "Email _Enrichment"
+  ],
   "help_online": "https://docs.fortinet.com/document/fortisoar/1.0.1/ip-quality-score/367/ip-quality-score-v1-0-1",
   "configuration": {
     "fields": [

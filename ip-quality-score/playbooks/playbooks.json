@@ -132,7 +132,7 @@
                   {
                     "option": "Yes",
                     "step_iri": "/api/3/workflow_steps/e68da6f4-1ef4-4edd-9446-8643f71dc762",
-                    "condition": "{{ vars.steps.Get_IP_Reputation.status == \"Success\" or vars.useMockOutput }}",
+                    "condition": "{{ (not vars.steps.Get_IP_Reputation.data.message is defined and vars.steps.Get_IP_Reputation.status == \"Success\") or vars.useMockOutput }}",
                     "step_name": "Compute IQS Summary"
                   },
                   {
@@ -600,7 +600,7 @@
                   {
                     "option": "Yes",
                     "step_iri": "/api/3/workflow_steps/dbbd678b-d672-49c5-a3a9-dadc8ccbc5df",
-                    "condition": "{{ vars.steps.Get_URL_Reputation.status == \"Success\" or vars.useMockOutput }}",
+                    "condition": "{{ (not vars.steps.Get_URL_Reputation.data.message is defined and vars.steps.Get_URL_Reputation.status == \"Success\") or vars.useMockOutput }}",
                     "step_name": "Compute IQS Summary"
                   },
                   {

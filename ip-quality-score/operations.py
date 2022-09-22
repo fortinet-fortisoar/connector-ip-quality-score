@@ -9,8 +9,10 @@ Copyright end
 import requests
 from urllib.parse import quote, urlencode
 from connectors.core.connector import get_logger, ConnectorError
+
 MACRO_LIST = ["IP_Enrichment_Playbooks_IRIs", "URL_Enrichment_Playbooks_IRIs", "Email_Enrichment_Playbooks_IRIs"]
 logger = get_logger('ip-quality-score')
+CONNECTOR_NAME = "ip-quality-score"
 
 
 class IPQualityScore(object):

@@ -2,17 +2,215 @@
   "type": "workflow_collections",
   "data": [
     {
-      "uuid": "86a457c0-445e-4ebb-94c3-f3c401f86c31",
       "@type": "WorkflowCollection",
       "name": "Sample - IP Quality Score - 1.0.1",
-      "description": "The IPQualityScore (IPQS) Threat Intelligence application provides threat intelligence for IP addresses, email addresses, URLs, and domains. This connector facilitates automated interactions with a IP Quality Score server using FortiSOAR\u2122 playbooks.",
+      "description": "Sample playbooks for \"IP Quality Score\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
       "visible": true,
       "image": null,
+      "uuid": "86a457c0-445e-4ebb-94c3-f3c401f86c31",
+      "id": 33,
+      "deletedAt": null,
+      "importedBy": [],
       "recordTags": [
         "Ip",
         "ip-quality-score"
       ],
       "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Get URL Reputation",
+          "aliasName": null,
+          "tag": "#IP Quality Score",
+          "description": "Retrieves the reputation of the submitted URL from IPQualityScore based on the URL and other input parameters you have specified.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": null,
+          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/70fa7084-0764-459f-8b69-6f048f41f486",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "f97079f1-44cc-45ec-acd0-a07821fd950b",
+                "title": "IP Quality Score: Get URL Reputation",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "20",
+              "left": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "70fa7084-0764-459f-8b69-6f048f41f486"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get URL Reputation",
+              "description": null,
+              "arguments": {
+                "name": "IP Quality Score",
+                "config": "''",
+                "params": {
+                  "fast": false,
+                  "strictness": 0
+                },
+                "version": "1.0.1",
+                "connector": "ip-quality-score",
+                "operation": "get_url_reputation",
+                "operationTitle": "Get URL Reputation",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "status": null,
+              "top": "120",
+              "left": "188",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "d6fa1eff-bdb4-4b36-86f8-40b39143dc79"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Get URL Reputation",
+              "targetStep": "/api/3/workflow_steps/d6fa1eff-bdb4-4b36-86f8-40b39143dc79",
+              "sourceStep": "/api/3/workflow_steps/70fa7084-0764-459f-8b69-6f048f41f486",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "e8a69fb4-76b2-43ea-95aa-503e004749d4"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "02ecf263-864c-4f98-a9e2-45f9ad558a58",
+          "id": 418,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Ip",
+            "ip-quality-score"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Get Email Reputation",
+          "aliasName": null,
+          "tag": "#IP Quality Score",
+          "description": "Retrieves the reputation of the submitted email address from IPQualityScore based on the email address and other input parameters you have specified.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": null,
+          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/8bdbde91-050c-43fb-911c-9951478c26d2",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Email Reputation",
+              "description": null,
+              "arguments": {
+                "name": "IP Quality Score",
+                "config": "''",
+                "params": {
+                  "fast": false,
+                  "timeout": 7,
+                  "strictness": 0,
+                  "suggest_domain": false,
+                  "abuse_strictness": 0
+                },
+                "version": "1.0.1",
+                "connector": "ip-quality-score",
+                "operation": "get_email_reputation",
+                "operationTitle": "Get Email Reputation",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "status": null,
+              "top": "120",
+              "left": "188",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "4471a9ac-a2c2-47c9-9c4e-e21301d7795c"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "8f175b36-3426-41db-83af-0856abd05137",
+                "title": "IP Quality Score: Get Email Reputation",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "20",
+              "left": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "8bdbde91-050c-43fb-911c-9951478c26d2"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Get Email Reputation",
+              "targetStep": "/api/3/workflow_steps/4471a9ac-a2c2-47c9-9c4e-e21301d7795c",
+              "sourceStep": "/api/3/workflow_steps/8bdbde91-050c-43fb-911c-9951478c26d2",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "cb019264-0ca3-45ba-9eff-f02cd41e3eed"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "1f97e6dd-8c70-44d4-8c5e-40cdc644c388",
+          "id": 417,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Ip",
+            "ip-quality-score"
+          ]
+        },
         {
           "@type": "Workflow",
           "triggerLimit": null,
@@ -29,8 +227,8 @@
             "style_colors"
           ],
           "synchronous": false,
-          "lastModifyDate": 1659678321,
-          "collection": "/api/3/workflow_collections/b285ba3d-ed75-4d4d-a625-fec3020b160f",
+          "lastModifyDate": 1664305135,
+          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
           "versions": [],
           "triggerStep": "/api/3/workflow_steps/899586a2-05e7-4c1c-9707-6235e4b1ccdb",
           "steps": [
@@ -176,7 +374,7 @@
               "name": "Return Output Data",
               "description": null,
               "arguments": {
-                "verdict": "{% if vars.steps.Get_IP_Reputation.data['fraud_score'] >= 88 %}{{\"Malicious\"}}{% elif vars.steps.Get_IP_Reputation.data['fraud_score'] > 0 and vars.steps.Get_IP_Reputation.data['fraud_score'] < 88 %}{{\"Suspicious\"}}{% elif vars.steps.Get_IP_Reputation.data['fraud_score'] == 0 %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "verdict": "{% if vars.steps.Get_IP_Reputation.data['fraud_score'] >= (vars.malicious_score.split('-')[1] | int) %}{{\"Malicious\"}}{% elif vars.steps.Get_IP_Reputation.data['fraud_score'] <= (vars.suspicious_score.split('-')[0] | int) and vars.steps.Get_IP_Reputation.data['fraud_score'] >= (vars.suspicious_score.split('-')[1] | int) %}{{\"Suspicious\"}}{% elif vars.steps.Get_IP_Reputation.data['fraud_score'] == vars.good_score %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
                 "cti_name": "IPQualityScore",
                 "cti_score": "{{vars.steps.Get_IP_Reputation.data['fraud_score']}}",
                 "source_data": "{\"IPQualityScore\": {{vars.steps.Get_IP_Reputation.data}} }",
@@ -250,7 +448,7 @@
           "groups": [],
           "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
           "uuid": "23dc6e04-0111-4b32-9758-6d5aa8fe063c",
-          "id": 635,
+          "id": 413,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
@@ -276,8 +474,8 @@
             "style_colors"
           ],
           "synchronous": false,
-          "lastModifyDate": 1659685639,
-          "collection": "/api/3/workflow_collections/b285ba3d-ed75-4d4d-a625-fec3020b160f",
+          "lastModifyDate": 1664305408,
+          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
           "versions": [],
           "triggerStep": "/api/3/workflow_steps/720017f0-9e46-4fb5-8e38-f222bcd47dc9",
           "steps": [
@@ -286,7 +484,7 @@
               "name": "Return Output Data",
               "description": null,
               "arguments": {
-                "verdict": "{% if vars.steps.Get_Email_Reputation.data['fraud_score'] >= 90 %}{{\"Malicious\"}}{% elif vars.steps.Get_Email_Reputation.data['fraud_score'] > 0 and vars.steps.Get_Email_Reputation.data['fraud_score'] < 90 %}{{\"Suspicious\"}}{% elif vars.steps.Get_Email_Reputation.data['fraud_score'] == 0 %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "verdict": "{% if vars.steps.Get_Email_Reputation.data['fraud_score'] >= (vars.malicious_score.split('-')[1] | int) %}{{\"Malicious\"}}{% elif vars.steps.Get_Email_Reputation.data['fraud_score'] <= (vars.suspicious_score.split('-')[0] | int) and vars.steps.Get_Email_Reputation.data['fraud_score'] >= (vars.suspicious_score.split('-')[1] | int) %}{{\"Suspicious\"}}{% elif vars.steps.Get_Email_Reputation.data['fraud_score'] == vars.good_score %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
                 "cti_name": "IPQualityScore",
                 "cti_score": "{{vars.steps.Get_Email_Reputation.data['fraud_score']}}",
                 "source_data": "{\"IPQualityScore\": {{vars.steps.Get_Email_Reputation.data}} }",
@@ -494,7 +692,7 @@
           "groups": [],
           "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
           "uuid": "56903948-9456-4f9c-ae66-99c3aa765a0a",
-          "id": 641,
+          "id": 414,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
@@ -502,6 +700,106 @@
           "recordTags": [
             "Subroutine",
             "Email_Enrichment"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Get IP Reputation",
+          "aliasName": null,
+          "tag": "#IP Quality Score",
+          "description": "Retrieves the reputation of the submitted IP address from IPQualityScore based on the IP address and other input parameters you have specified.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": null,
+          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/b2a57992-da3c-4e6c-9f46-3d3bd8eef85a",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Get IP Reputation",
+              "description": null,
+              "arguments": {
+                "name": "IP Quality Score",
+                "config": "''",
+                "params": {
+                  "fast": false,
+                  "mobile": false,
+                  "strictness": 0,
+                  "lighter_penalties": false,
+                  "transaction_strictness": 0,
+                  "allow_public_access_points": false
+                },
+                "version": "1.0.1",
+                "connector": "ip-quality-score",
+                "operation": "get_ip_reputation",
+                "operationTitle": "Get IP Reputation",
+                "step_variables": {
+                  "output_data": "{{vars.result}}"
+                }
+              },
+              "status": null,
+              "top": "120",
+              "left": "188",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "23e7c252-1d78-4c8c-bcff-aef2acf2d31c"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "c3eb70fe-dd79-430b-965e-ec9d315f7f5a",
+                "title": "IP Quality Score: Get IP Reputation",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "20",
+              "left": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "b2a57992-da3c-4e6c-9f46-3d3bd8eef85a"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Get IP Reputation",
+              "targetStep": "/api/3/workflow_steps/23e7c252-1d78-4c8c-bcff-aef2acf2d31c",
+              "sourceStep": "/api/3/workflow_steps/b2a57992-da3c-4e6c-9f46-3d3bd8eef85a",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "673ce66e-3408-4b49-b2b5-0bde03d31b31"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "9a302e35-c72c-4c78-a1e7-434498c9791c",
+          "id": 416,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "Ip",
+            "ip-quality-score"
           ]
         },
         {
@@ -520,8 +818,8 @@
             "style_colors"
           ],
           "synchronous": false,
-          "lastModifyDate": 1659682744,
-          "collection": "/api/3/workflow_collections/b285ba3d-ed75-4d4d-a625-fec3020b160f",
+          "lastModifyDate": 1664305262,
+          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
           "versions": [],
           "triggerStep": "/api/3/workflow_steps/ea801c0f-df79-45d8-9c1b-10590bef9204",
           "steps": [
@@ -530,7 +828,7 @@
               "name": "Return Output Data",
               "description": null,
               "arguments": {
-                "verdict": "{% if vars.steps.Get_URL_Reputation.data['risk_score'] == 100 %}{{\"Malicious\"}}{% elif vars.steps.Get_URL_Reputation.data['risk_score'] > 0 and vars.steps.Get_URL_Reputation.data['risk_score'] < 100 %}{{\"Suspicious\"}}{% elif vars.steps.Get_URL_Reputation.data['risk_score'] == 0 %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
+                "verdict": "{% if vars.steps.Get_URL_Reputation.data['risk_score'] == vars.malicious_score %}{{\"Malicious\"}}{% elif vars.steps.Get_URL_Reputation.data['risk_score'] <= (vars.suspicious_score.split('-')[0] | int) and vars.steps.Get_URL_Reputation.data['risk_score'] >= (vars.suspicious_score.split('-')[1] | int) %}{{\"Suspicious\"}}{% elif vars.steps.Get_URL_Reputation.data['risk_score'] == vars.good_score %}{{\"Good\"}}{% else %}{{\"No Reputation Available\"}}{% endif %}",
                 "cti_name": "IPQualityScore",
                 "cti_score": "{{vars.steps.Get_URL_Reputation.data['risk_score']}}",
                 "source_data": "{\"IPQualityScore\": {{vars.steps.Get_URL_Reputation.data}} }",
@@ -735,7 +1033,7 @@
           "groups": [],
           "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
           "uuid": "a851d84b-dbd3-4835-879c-215d9e346e27",
-          "id": 646,
+          "id": 415,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
@@ -743,262 +1041,6 @@
           "recordTags": [
             "Subroutine",
             "URL_Enrichment"
-          ]
-        },
-        {
-          "@type": "Workflow",
-          "uuid": "9a302e35-c72c-4c78-a1e7-434498c9791c",
-          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
-          "triggerLimit": null,
-          "description": "Retrieves the reputation of the submitted IP address from IPQualityScore based on the IP address and other input parameters you have specified.",
-          "name": "Get IP Reputation",
-          "tag": "#IP Quality Score",
-          "recordTags": [
-            "Ip",
-            "ip-quality-score"
-          ],
-          "isActive": false,
-          "debug": false,
-          "singleRecordExecution": false,
-          "parameters": [],
-          "synchronous": false,
-          "triggerStep": "/api/3/workflow_steps/b2a57992-da3c-4e6c-9f46-3d3bd8eef85a",
-          "steps": [
-            {
-              "uuid": "b2a57992-da3c-4e6c-9f46-3d3bd8eef85a",
-              "@type": "WorkflowStep",
-              "name": "Start",
-              "description": null,
-              "status": null,
-              "arguments": {
-                "route": "c3eb70fe-dd79-430b-965e-ec9d315f7f5a",
-                "title": "IP Quality Score: Get IP Reputation",
-                "resources": [
-                  "alerts"
-                ],
-                "inputVariables": [],
-                "step_variables": {
-                  "input": {
-                    "records": "{{vars.input.records[0]}}"
-                  }
-                },
-                "singleRecordExecution": false,
-                "noRecordExecution": true,
-                "executeButtonText": "Execute"
-              },
-              "left": "20",
-              "top": "20",
-              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
-            },
-            {
-              "uuid": "23e7c252-1d78-4c8c-bcff-aef2acf2d31c",
-              "@type": "WorkflowStep",
-              "name": "Get IP Reputation",
-              "description": null,
-              "status": null,
-              "arguments": {
-                "name": "IP Quality Score",
-                "config": "''",
-                "params": {
-                  "strictness": 0,
-                  "fast": false,
-                  "mobile": false,
-                  "allow_public_access_points": false,
-                  "lighter_penalties": false,
-                  "transaction_strictness": 0
-                },
-                "version": "1.0.1",
-                "connector": "ip-quality-score",
-                "operation": "get_ip_reputation",
-                "operationTitle": "Get IP Reputation",
-                "step_variables": {
-                  "output_data": "{{vars.result}}"
-                }
-              },
-              "left": "188",
-              "top": "120",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
-            }
-          ],
-          "routes": [
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "673ce66e-3408-4b49-b2b5-0bde03d31b31",
-              "label": null,
-              "isExecuted": false,
-              "name": "Start-> Get IP Reputation",
-              "sourceStep": "/api/3/workflow_steps/b2a57992-da3c-4e6c-9f46-3d3bd8eef85a",
-              "targetStep": "/api/3/workflow_steps/23e7c252-1d78-4c8c-bcff-aef2acf2d31c"
-            }
-          ]
-        },
-        {
-          "@type": "Workflow",
-          "uuid": "1f97e6dd-8c70-44d4-8c5e-40cdc644c388",
-          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
-          "triggerLimit": null,
-          "description": "Retrieves the reputation of the submitted email address from IPQualityScore based on the email address and other input parameters you have specified.",
-          "name": "Get Email Reputation",
-          "tag": "#IP Quality Score",
-          "recordTags": [
-            "Ip",
-            "ip-quality-score"
-          ],
-          "isActive": false,
-          "debug": false,
-          "singleRecordExecution": false,
-          "parameters": [],
-          "synchronous": false,
-          "triggerStep": "/api/3/workflow_steps/8bdbde91-050c-43fb-911c-9951478c26d2",
-          "steps": [
-            {
-              "uuid": "8bdbde91-050c-43fb-911c-9951478c26d2",
-              "@type": "WorkflowStep",
-              "name": "Start",
-              "description": null,
-              "status": null,
-              "arguments": {
-                "route": "8f175b36-3426-41db-83af-0856abd05137",
-                "title": "IP Quality Score: Get Email Reputation",
-                "resources": [
-                  "alerts"
-                ],
-                "inputVariables": [],
-                "step_variables": {
-                  "input": {
-                    "records": "{{vars.input.records[0]}}"
-                  }
-                },
-                "singleRecordExecution": false,
-                "noRecordExecution": true,
-                "executeButtonText": "Execute"
-              },
-              "left": "20",
-              "top": "20",
-              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
-            },
-            {
-              "uuid": "4471a9ac-a2c2-47c9-9c4e-e21301d7795c",
-              "@type": "WorkflowStep",
-              "name": "Get Email Reputation",
-              "description": null,
-              "status": null,
-              "arguments": {
-                "name": "IP Quality Score",
-                "config": "''",
-                "params": {
-                  "fast": false,
-                  "timeout": 7,
-                  "suggest_domain": false,
-                  "strictness": 0,
-                  "abuse_strictness": 0
-                },
-                "version": "1.0.1",
-                "connector": "ip-quality-score",
-                "operation": "get_email_reputation",
-                "operationTitle": "Get Email Reputation",
-                "step_variables": {
-                  "output_data": "{{vars.result}}"
-                }
-              },
-              "left": "188",
-              "top": "120",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
-            }
-          ],
-          "routes": [
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "cb019264-0ca3-45ba-9eff-f02cd41e3eed",
-              "label": null,
-              "isExecuted": false,
-              "name": "Start-> Get Email Reputation",
-              "sourceStep": "/api/3/workflow_steps/8bdbde91-050c-43fb-911c-9951478c26d2",
-              "targetStep": "/api/3/workflow_steps/4471a9ac-a2c2-47c9-9c4e-e21301d7795c"
-            }
-          ]
-        },
-        {
-          "@type": "Workflow",
-          "uuid": "02ecf263-864c-4f98-a9e2-45f9ad558a58",
-          "collection": "/api/3/workflow_collections/86a457c0-445e-4ebb-94c3-f3c401f86c31",
-          "triggerLimit": null,
-          "description": "Retrieves the reputation of the submitted URL from IPQualityScore based on the URL and other input parameters you have specified.",
-          "name": "Get URL Reputation",
-          "tag": "#IP Quality Score",
-          "recordTags": [
-            "Ip",
-            "ip-quality-score"
-          ],
-          "isActive": false,
-          "debug": false,
-          "singleRecordExecution": false,
-          "parameters": [],
-          "synchronous": false,
-          "triggerStep": "/api/3/workflow_steps/70fa7084-0764-459f-8b69-6f048f41f486",
-          "steps": [
-            {
-              "uuid": "70fa7084-0764-459f-8b69-6f048f41f486",
-              "@type": "WorkflowStep",
-              "name": "Start",
-              "description": null,
-              "status": null,
-              "arguments": {
-                "route": "f97079f1-44cc-45ec-acd0-a07821fd950b",
-                "title": "IP Quality Score: Get URL Reputation",
-                "resources": [
-                  "alerts"
-                ],
-                "inputVariables": [],
-                "step_variables": {
-                  "input": {
-                    "records": "{{vars.input.records[0]}}"
-                  }
-                },
-                "singleRecordExecution": false,
-                "noRecordExecution": true,
-                "executeButtonText": "Execute"
-              },
-              "left": "20",
-              "top": "20",
-              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a"
-            },
-            {
-              "uuid": "d6fa1eff-bdb4-4b36-86f8-40b39143dc79",
-              "@type": "WorkflowStep",
-              "name": "Get URL Reputation",
-              "description": null,
-              "status": null,
-              "arguments": {
-                "name": "IP Quality Score",
-                "config": "''",
-                "params": {
-                  "strictness": 0,
-                  "fast": false
-                },
-                "version": "1.0.1",
-                "connector": "ip-quality-score",
-                "operation": "get_url_reputation",
-                "operationTitle": "Get URL Reputation",
-                "step_variables": {
-                  "output_data": "{{vars.result}}"
-                }
-              },
-              "left": "188",
-              "top": "120",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
-            }
-          ],
-          "routes": [
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "e8a69fb4-76b2-43ea-95aa-503e004749d4",
-              "label": null,
-              "isExecuted": false,
-              "name": "Start-> Get URL Reputation",
-              "sourceStep": "/api/3/workflow_steps/70fa7084-0764-459f-8b69-6f048f41f486",
-              "targetStep": "/api/3/workflow_steps/d6fa1eff-bdb4-4b36-86f8-40b39143dc79"
-            }
           ]
         }
       ]
@@ -1012,6 +1054,8 @@
     }
   ],
   "exported_tags": [
+    "Ip",
+    "ip-quality-score",
     "Subroutine",
     "IP_Enrichment",
     "Email_Enrichment",

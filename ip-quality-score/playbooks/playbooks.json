@@ -4,7 +4,7 @@
     {
       "@type": "WorkflowCollection",
       "name": "Sample - IP Quality Score - 1.0.1",
-      "description": "Sample playbooks for \"IP Quality Score\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
+      "description": "The IPQualityScore (IPQS) Threat Intelligence application provides threat intelligence for IP addresses, email addresses, URLs, and domains. This connector facilitates automated interactions with a IP Quality Score server using FortiSOAR playbooks.",
       "visible": true,
       "image": null,
       "uuid": "86a457c0-445e-4ebb-94c3-f3c401f86c31",
